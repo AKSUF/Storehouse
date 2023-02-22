@@ -11,4 +11,5 @@ public class ProducerDto {
 	private Long producerId;
 	private String producerName;
 	private String producerLocation;
+	private UserDto userDto;
 }

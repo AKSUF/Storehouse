@@ -1,6 +1,11 @@
 package com.storehouse.com.entity;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,6 +37,10 @@ public class DeliveryMan {
 	@ManyToOne
 	@JoinColumn(name="storeId")
 	private Store store;
+	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+	@JoinColumn(name = "deliverId", referencedColumnName = "deliverId")
+	private Delivery delivery;
 	
+
 	
 }

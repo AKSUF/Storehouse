@@ -1,7 +1,11 @@
 package com.storehouse.com.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +20,7 @@ private Long account_id;
 @Email
 private String email;
 private String provider;
-
-
+@JsonIgnore
+private UserDto user;
+private List<UserRoleDto> userRoles;
 }

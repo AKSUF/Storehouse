@@ -11,6 +11,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.nimbusds.jose.shaded.json.annotate.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,5 +29,11 @@ public class Customer {
 	private List<Store>stores;
 	@OneToOne(mappedBy = "customer")
 	private Cart cart;
+	
+	@OneToOne
+	@JoinColumn(name="user_id")
+	@JsonIgnore
+	private User user;
+
 	
 }

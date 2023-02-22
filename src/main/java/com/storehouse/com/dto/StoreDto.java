@@ -1,6 +1,8 @@
 package com.storehouse.com.dto;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +14,13 @@ import lombok.Setter;
 public class StoreDto {
 	private Long storeId;
 	private String storeName;
-	private String storeocation;
+	private String storeLocation;
+	private String catagory;
+	private String openday;
+	private String storeImage;
 	private List<CustomerDto>customers;
 	private List<DeliveryManDto>deliveryMans;
 	private StoreManagerDto storeManager;
 	private AdminDto admin;
+	private Set<CommentDto> comments = new HashSet<>();
 }

@@ -28,6 +28,11 @@ private List<CartItem>cartItems;
 @JoinColumn(name = "customerId")
 private Customer customer;
 
+@OneToOne
+@JoinColumn(name = "user_id")
+private User user;
+
+
 
 public void addCartItem(CartItem cartItem) {
     cartItems.add(cartItem);
