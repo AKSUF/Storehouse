@@ -28,10 +28,10 @@ public class Product {
 
 	private Long productId;
 	private String productName;
-	private int price;
+	private Double price;
 	private String image;
 	private String status;
-	
+	  private Integer quantity;
 	private String productdesc;
 	private String category;
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)

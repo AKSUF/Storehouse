@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.storehouse.com.dto.CartDto;
 import com.storehouse.com.dto.CartItemDto;
+import com.storehouse.com.entity.Account;
+import com.storehouse.com.entity.User;
+import com.storehouse.com.exceptions.ResourceNotFoundException;
 import com.storehouse.com.security.oath.JwtUtils;
 import com.storehouse.com.service.CartService;
 
@@ -29,10 +32,15 @@ public class CartController {
 	 @PostMapping("/{productId}")
 	 public ResponseEntity<CartDto>addToCart(@PathVariable Long  productId,HttpServletRequest request,@RequestBody CartItemDto cartItemDto){
 		 System.out.println("////////This is for cart ///for customer");
+		 
 		 CartDto cartDto=cartService.addCart(productId,jwtUtils.getJWTFromRequest(request),cartItemDto);
+			System.out.println(cartDto+"//////////////////////////////////cartdto");
+			System.out.println(cartDto+"//////////////////////////////////cartdto");
 		return ResponseEntity.ok(cartDto);
 		 
 	 }
+	 
+	 
 	 
 	@GetMapping("/singlecart/{cartId}")
 	public ResponseEntity<CartDto>getCart(@PathVariable Long cartId,HttpServletRequest request) {
@@ -40,6 +48,17 @@ public class CartController {
 		return ResponseEntity.ok(cartDto);
 		
 	}
+	
+public ResponseEntity<CartDto>getAllCartItemsForUser(HttpServletRequest request){
+	
+	
+	return null;
+	
+	
+}
+	
+	
+	
 	@PutMapping("/cartItem/{cartItemId}")
 	 public ResponseEntity<CartDto>updateCartItem(@PathVariable Long cartItemId,HttpServletRequest request){
 		CartDto cartDto=cartService.updateCartItem(cartItemId,jwtUtils.getJWTFromRequest(request));

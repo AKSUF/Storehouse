@@ -22,5 +22,10 @@ public class DeliveryDto {
 	private  DeliveryManDto deliveryMan;
 	@JsonIgnore
 	private OrdersDto orderdeliver;
+	private Double totalPrice;
+	
+	 private int quantity;
+	  private String paymentIntentId;
+	
 	
 }

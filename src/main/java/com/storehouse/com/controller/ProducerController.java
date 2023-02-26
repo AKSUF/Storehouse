@@ -68,13 +68,31 @@ public class ProducerController {
 		return new ResponseEntity<ApiResponse>(new ApiResponse("Product updated successfully",true),HttpStatus.CREATED);
 		
 	}
+//	//as uploading as user and product id
+//	@PostMapping("/product/{userId}/{storeId}")
+//	public ResponseEntity<ProductDto>addproduct(@RequestBody ProductDto productDto,@PathVariable Long userId,@PathVariable Long storeId,HttpServletRequest request){
+//		ProductDto addproduct=this.producerService.addnewProduct(productDto,userId,storeId,jwtUtils.getJWTFromRequest(request));
+//		return new ResponseEntity<ProductDto>(addproduct,HttpStatus.CREATED);
+//		
+//	}
+	
 	//as uploading as user and product id
-	@PostMapping("/product/{userId}/{storeId}")
-	public ResponseEntity<ProductDto>addproduct(@RequestBody ProductDto productDto,@PathVariable Long userId,@PathVariable Long storeId,HttpServletRequest request){
-		ProductDto addproduct=this.producerService.addnewProduct(productDto,userId,storeId,jwtUtils.getJWTFromRequest(request));
+	@PostMapping("/product/producer/{storeId}")
+	public ResponseEntity<ProductDto>addproduct(@RequestBody ProductDto productDto,@PathVariable Long storeId,HttpServletRequest request){
+		System.out.println("///helooo boy /////");
+		ProductDto addproduct=this.producerService.addnewProduct(productDto,storeId,jwtUtils.getJWTFromRequest(request));
+		System.out.println("///helooo boy /////");
+		System.out.println(addproduct);
+		
 		return new ResponseEntity<ProductDto>(addproduct,HttpStatus.CREATED);
 		
 	}
+	
+	
+	
+	
+	
+	
 	
 	//For uploading image
 	@PostMapping("/product/{productId}")
@@ -86,6 +104,15 @@ public class ProducerController {
 		return new ResponseEntity<ProductDto>(updateProduct,HttpStatus.OK);
 		
 	}
+	//For uploading image
+	@GetMapping("/product/getproduct/{productId}")
+	public ResponseEntity<ProductDto>getproductByid(@PathVariable Long productId,HttpServletRequest request) throws  IOException{
+		ProductDto productDto=this.producerService.getProductById(productId);
+		return new ResponseEntity<ProductDto>(productDto,HttpStatus.OK);
+		
+	}
+	
+	
 	//get image from 
 	@GetMapping(value="/product/{imageName}",produces = MediaType.IMAGE_JPEG_VALUE)
 	public void downloadImage(@PathVariable("imageName")String imageName,HttpServletResponse response,HttpServletRequest request) throws IOException{
@@ -95,15 +122,22 @@ public class ProducerController {
 	}
 	
 	
+	
+	
 	@GetMapping("/product/{userId}")
 	public ResponseEntity<List<ProductDto>>getProductByUser(@PathVariable Long userId,HttpServletRequest request){
 		List<ProductDto>products=this.producerService.getProductByUser(userId,jwtUtils.getJWTFromRequest(request));
 		return new ResponseEntity<List<ProductDto>>(products,HttpStatus.OK);
 		
 	}
-	@GetMapping("/product/store/{storeId}")
-	public ResponseEntity<List<ProductDto>>getProductasStore(@PathVariable Long storeId,HttpServletRequest request){
-		List<ProductDto>product=this.producerService.getProductAsStore(storeId,jwtUtils.getJWTFromRequest(request));
+	
+	
+	
+	
+	
+	@GetMapping("/product/productdetails")
+	public ResponseEntity<List<ProductDto>>getProductasStore(HttpServletRequest request){
+		List<ProductDto>product=this.producerService.getProductAsStore(jwtUtils.getJWTFromRequest(request));
 		return new ResponseEntity<List<ProductDto>>(product,HttpStatus.OK);
 		
 	}

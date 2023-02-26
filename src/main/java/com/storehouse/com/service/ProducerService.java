@@ -13,13 +13,13 @@ public interface ProducerService {
 
 	ProductDto updateaddedProduct(@Valid ProductDto productDto, String jwtFromRequest, Long productId);
 
-	ProductDto addnewProduct(ProductDto productDto, Long userId, Long storeId, String token);
+	ProductDto addnewProduct(ProductDto productDto,Long storeId, String token);
 
 	ProductDto getProductById(Long productId);
 
 	List<ProductDto> getProductByUser(Long userId, String jwtFromRequest);
 
-	List<ProductDto> getProductAsStore(Long storeId, String token);
+	List<ProductDto> getProductAsStore( String token);
 
 	
 

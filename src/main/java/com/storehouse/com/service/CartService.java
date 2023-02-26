@@ -15,6 +15,10 @@ public interface CartService {
 
 	void removeCartItem(Long cartItemId, String token);
 
+	CartDto getUserCart(String token);
+
+	
+
 
 
 	

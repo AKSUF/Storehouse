@@ -63,7 +63,7 @@ public class ProducerServiceImpl implements ProducerService{
 	}
 
 	@Override
-	public ProductDto addnewProduct(ProductDto productDto, Long userId, Long storeId, String token) {
+	public ProductDto addnewProduct(ProductDto productDto,Long storeId, String token) {
 		String email=jwtUtils.getUserNameFromToken(token);
 		Account account=accountRepository.findByEmail(email).orElseThrow(()->new ResourceNotFoundException("user","credential",email));
 		User user=account.getUser();
@@ -72,7 +72,7 @@ public class ProducerServiceImpl implements ProducerService{
 		
 	
 		product.setUser(user);
-		product.setProducer(user.getProducer());
+		//product.setProducer(user.getProducer());
 		product.setStore(store);
 		product.setStatus("PENDING");
 		Product newProduct=this.productRepository.save(product);
@@ -97,9 +97,9 @@ public class ProducerServiceImpl implements ProducerService{
 	}
 
 	@Override
-	public List<ProductDto> getProductAsStore(Long storeId, String token) {
-	Store store=this.storeRepository.findById(storeId).orElseThrow(()->new ResourceNotFoundException("Store","StoreId",storeId.toString()));
-	List<Product>products=this.productRepository.findByStore(store);
+	public List<ProductDto> getProductAsStore(String token) {
+	
+	List<Product>products=this.productRepository.findAll();
 	List<ProductDto>productDtos=products.stream().map((product)->this.modelMapper.map(product,ProductDto.class)).collect(Collectors.toList());
 		return productDtos;
 	}

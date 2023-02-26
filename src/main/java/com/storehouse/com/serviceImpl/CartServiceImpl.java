@@ -44,18 +44,21 @@ private CartItemRepository cartItemRepository;
 		String email=jwtUtils.getUserNameFromToken(token);
 		Account account=accountRepository.findByEmail(email).orElseThrow(()->new ResourceNotFoundException("user","credential",email));
 		User user=account.getUser();
+		System.out.println(user+"//////////////////////////////////User");
+		System.out.println(user+"//////////////////////////////////User");
+		System.out.println(user+"//////////////////////////////////User");
 	Product product=productRepository.findById(productId).orElseThrow(()->new ResourceNotFoundException("product","productId",productId.toString()));
 	//get the cart or create new one
+	 
     Cart cart = user.getCart();
-    if (cart == null) {
-        cart = new Cart();
-        cart.setUser(user);
-        user.setCart(cart);
-    }
+    cart.setUser(user);
+	System.out.println(cart+"//////////////////////////////////cartdsetuser");
+  
     if (userRepository != null && user != null) {
         userRepository.save(user);
     }
     CartItem cartItem = cartItemRepository.findByCartAndProduct(cart, product);
+	System.out.println(cartItem+"//////////////////////////////////cartitemsetuser");
     if (cartItem == null) {
         // Create a new cart item
         cartItem = new CartItem();
@@ -65,7 +68,7 @@ private CartItemRepository cartItemRepository;
     } else {
         System.out.println("Your cart");
     }
-  
+
   
     cartRepository.save(cart);
    return modelmapper.map(cart, CartDto.class);
@@ -103,7 +106,15 @@ private CartItemRepository cartItemRepository;
 	                .orElseThrow(() -> new ResourceNotFoundException("CartItem", "id", cartItemId.toString()));
 	        cartItemRepository.delete(cartItem);
 	    }
+	@Override
+	public CartDto getUserCart(String token) {
+		String email=jwtUtils.getUserNameFromToken(token);
+		Account account=accountRepository.findByEmail(email).orElseThrow(()->new ResourceNotFoundException("user","credential",email));
+		User user=account.getUser();
 		
+		return null;
+	}
+
 	}
 	
 	

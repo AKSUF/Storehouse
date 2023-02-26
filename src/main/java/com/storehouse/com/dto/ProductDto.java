@@ -14,11 +14,12 @@ import lombok.Setter;
 public class ProductDto {
 	private Long productId;
 	private String productName;
-	private int price;
+	private Double price;
 	private String image;
 	private ProducerDto producer;
 	private StoreDto store;
 	private String category;
+	  private Integer quantity;
 	private UserDto user;
 	private List<DeliveryDto> delivery;
 	private Set<CommentDto> comments = new HashSet<>();

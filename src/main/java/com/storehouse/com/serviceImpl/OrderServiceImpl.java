@@ -51,6 +51,7 @@ public class OrderServiceImpl implements OrderService {
 				.orElseThrow(() -> new ResourceNotFoundException("user", "credentials", email));
 		Delivery delivery = this.modelMapper.map(deliveryDto, Delivery.class);
 		delivery.setDelivery_number((int) (Math.floor(Math.random() * (99999999 - 00000000)) + 00000000));
+		delivery.setQuantity((int) (Math.floor(Math.random() * (99999999 - 00000000)) + 00000000));
 		delivery.setStatus("Pending");
 
 		delivery.setUser(account.getUser());

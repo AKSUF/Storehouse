@@ -33,6 +33,9 @@ public class Delivery {
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
 	@JsonIgnore
 	private User user;
+	 private int quantity;
+	private Double totalPrice;
+	  private String paymentIntentId;
 	
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "productId", referencedColumnName = "productId")
