@@ -1,13 +1,19 @@
 package com.storehouse.com.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import com.storehouse.com.dto.CartDto;
 import com.storehouse.com.dto.CartItemDto;
+import com.storehouse.com.dto.ProductDto;
 import com.storehouse.com.entity.Account;
 import com.storehouse.com.entity.Cart;
 import com.storehouse.com.entity.CartItem;
@@ -29,8 +35,10 @@ public class CartServiceImpl implements CartService {
     private AccountRepository accountRepository;
     @Autowired
     private CartRepository cartRepository;
-    @Autowired
+	@Autowired
 	private JwtUtils jwtUtils;
+ 
+    
 	@Autowired
 	private ModelMapper modelmapper;
 	@Autowired
@@ -44,26 +52,33 @@ private CartItemRepository cartItemRepository;
 		String email=jwtUtils.getUserNameFromToken(token);
 		Account account=accountRepository.findByEmail(email).orElseThrow(()->new ResourceNotFoundException("user","credential",email));
 		User user=account.getUser();
-		System.out.println(user+"//////////////////////////////////User");
-		System.out.println(user+"//////////////////////////////////User");
-		System.out.println(user+"//////////////////////////////////User");
+	
 	Product product=productRepository.findById(productId).orElseThrow(()->new ResourceNotFoundException("product","productId",productId.toString()));
 	//get the cart or create new one
 	 
-    Cart cart = user.getCart();
-    cart.setUser(user);
-	System.out.println(cart+"//////////////////////////////////cartdsetuser");
+	if(user.getCart() == null) {
+		   //If user does not have a cart, create a new cart for the user
+		   Cart cart = new Cart();
+		   cart.setUser(user);
+		   user.setCart(cart);
+		   userRepository.save(user); //save the user object to update the changes in the database
+		}
+
+	
+	Cart cart=user.getCart();
+	
   
     if (userRepository != null && user != null) {
         userRepository.save(user);
     }
     CartItem cartItem = cartItemRepository.findByCartAndProduct(cart, product);
-	System.out.println(cartItem+"//////////////////////////////////cartitemsetuser");
+
     if (cartItem == null) {
         // Create a new cart item
         cartItem = new CartItem();
         cartItem.setCart(cart);
         cartItem.setProduct(product);
+        cartItemRepository.save(cartItem);
         cart.getCartItems().add(cartItem);
     } else {
         System.out.println("Your cart");
@@ -115,6 +130,62 @@ private CartItemRepository cartItemRepository;
 		return null;
 	}
 
+	@Override
+	public List<CartDto> getCartByUser(String token) {
+	    String email = jwtUtils.getUserNameFromToken(token);
+	    System.out.println(token+"///////////////////////tofghdfghdgsdfsfas////////////////////////////////////////tokk"+email);
+	    Account account = accountRepository.findByEmail(email)
+	            .orElseThrow(() -> new ResourceNotFoundException("user", "credential", email));
+	    User user = account.getUser();
+	    System.out.println(user+"///////////////////////user.user();//////////////account.getUser();/////////////////////////tokk"+account.getUser());
+	    System.out.println(user+"///////////////////////user.user();//////////////account.getUser();/////////////////////////tokk"+account.getUser());
+	    Cart cart = user.getCart();
+	    System.out.println(cart+"///////////////////////user.getCart();////////////////////////////////////////tokk"+user.getCart());
+	    System.out.println(cart+"///////////////////////user.getCart();////////////////////////////////////////tokk"+user.getCart());
+	    List<CartItem> cartItems = cart.getCartItems();
+	    List<CartDto> cartDtos = new ArrayList<>();
+	    for (CartItem cartItem : cartItems) {
+	        Product product = cartItem.getProduct();
+	        CartItemDto cartItemDto = modelmapper.map(cartItem, CartItemDto.class);
+	        ProductDto productDto = modelmapper.map(product, ProductDto.class);
+	        cartItemDto.setProduct(productDto);
+	        CartDto cartDto = new CartDto();
+	        cartDto.setCartId(cart.getCartId());
+	        cartDto.setCartItems(Collections.singletonList(cartItemDto));
+	        cartDtos.add(cartDto);
+	    }
+	    return cartDtos;
+	}
+	@Override
+	public void updateCartItemQuantity(Long cartitemId, int quantity,String token) {
+		
+		 String email = jwtUtils.getUserNameFromToken(token);
+				 
+				  Account account = accountRepository.findByEmail(email)
+	                .orElseThrow(() -> new ResourceNotFoundException("user", "credential", email));
+	        User user = account.getUser();
+	        
+	        Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartitemId);
+
+	        if (cartItemOptional.isPresent()) {
+	            CartItem cartItem = cartItemOptional.get();
+	            if (cartItem.getCart().getUser().equals(user)) {
+	                cartItem.setQuantity(quantity);
+	                cartItemRepository.save(cartItem);
+	               
+	                
+	            } else {
+	                throw new AccessDeniedException("You do not have permission to modify this cart item.");
+	               
+	            }
+	        } else {
+	            throw new IllegalArgumentException("Invalid cart item ID.");
+	            
+	        }
+	    
+	}
+	
+	
 	}
 	
 	

@@ -16,7 +16,6 @@ import com.storehouse.com.repository.RoleRepository;
 
 @SpringBootApplication
 public class StorehouseApplication  implements CommandLineRunner{
-
 	@Autowired
 	private RoleRepository roleRepository;
 	
@@ -60,12 +59,18 @@ public class StorehouseApplication  implements CommandLineRunner{
 				role_storemanager.setRole_id(AppConstants.ROLE_STOREMANAGER.longValue());
 				role_storemanager.setRole_name("ROLE_STOREMANAGER");
 
+				
+				Role role_manager=new Role();
+				role_manager.setRole_id(AppConstants.ROLE_MANAGER.longValue());
+				role_manager.setRole_name("ROLE_MANAGER");
+				
+				
 //				// career giver role
 //				Role role_careergiver = new Role();
 //				role_careergiver.setRole_id(AppConstants.ROLE_CARERGIVER.longValue());
 //				role_careergiver.setRole_name("ROLE_CAREGIVER");
 
-				List<Role> roles = Arrays.asList(role_admin, role_custmer, role_producer, role_rider, role_storemanager
+				List<Role> roles = Arrays.asList(role_admin, role_custmer, role_producer, role_rider, role_storemanager,role_manager
 						);
 
 				this.roleRepository.saveAll(roles);

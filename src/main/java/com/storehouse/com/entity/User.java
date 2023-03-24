@@ -1,5 +1,6 @@
 package com.storehouse.com.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -37,32 +38,28 @@ public class User {
 	private String phone_number;
 	private String gender;
 	private String profile_image;
+	private String adress;
 	
 	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "account_id", referencedColumnName = "account_id")
 
 	private Account account;
-	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-	private Producer producer;
-	
+
 	
 	@OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
 	private Cart cart;
-	
-	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-	private Customer customer;
-	
-	
-	@OneToOne(mappedBy = "userdelivryman")
-	private DeliveryMan deliveryMan;
-	
-	@OneToOne(mappedBy = "userstoremanager")
-	private StoreManager storeManager;
-	@OneToOne(mappedBy = "adminuser")
-	private Admin admin;
+
 	@OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, mappedBy = "user")
 	private List<Product>products;
+	
+	
+	
+	@OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, mappedBy = "")
+	private List<Product>producerproduct;
+	
 	@OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, mappedBy = "user")
 	private List<Store>stores;
+	
+
 	
 }

@@ -3,6 +3,7 @@ package com.storehouse.com.entity;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,13 +26,11 @@ import lombok.Setter;
 
 public class Producer {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
 private Long producerId;
 private String producerName;
 private String producerLocation;
 @OneToOne
-@JoinColumn(name="user_id")
+@JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
 @JsonIgnore
 private User user;
 

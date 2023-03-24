@@ -13,6 +13,7 @@ public class AppConstants {
 		public static final Integer ROLE_PRODUCER = 103;
 		public static final Integer ROLE_RIDER = 104;
 		public static final Integer ROLE_STOREMANAGER= 105;
+		public static final Integer ROLE_MANAGER= 106;
 	
 
 }

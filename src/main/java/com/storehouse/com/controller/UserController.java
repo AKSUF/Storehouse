@@ -60,6 +60,7 @@ public class UserController {
 	@PostMapping("/register")
 	public ResponseEntity<UserDto> registerUserLocal(HttpServletRequest request, @Valid @RequestBody UserDto userDto) {
 
+
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(userService.createUserProfile(userDto, jwtUtils.getJWTFromRequest(request)));
 	}
@@ -73,6 +74,11 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(userService.editUserProfile(userDto, userId));
 	}
+	
+	
+	
+	
+	
 	
 	// get personal user profile
 	@GetMapping("/profile")

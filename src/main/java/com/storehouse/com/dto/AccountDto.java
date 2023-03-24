@@ -20,7 +20,7 @@ private Long account_id;
 @Email
 private String email;
 private String provider;
-@JsonIgnore
+
 private UserDto user;
 private List<UserRoleDto> userRoles;
 }

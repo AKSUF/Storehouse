@@ -27,12 +27,11 @@ import lombok.Setter;
 @Table
 
 public class DeliveryMan {
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long deliverymanId;
 	@OneToOne
-	@JoinColumn(name="user_id")
+
+	 @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
 	private User userdelivryman;
 	@ManyToOne
 	@JoinColumn(name="storeId")

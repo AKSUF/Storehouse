@@ -55,14 +55,24 @@ public class ProducerController {
 		System.out.println("///This is for add product controller///////////////////");
 		
 		System.out.println("///Foof food///////////////////");
+
 		Product product=this.producerService.addProduct(productDto,jwtUtils.getJWTFromRequest(request));
+	
 		ProductDto newProduct=this.modelMapper.map(product,ProductDto.class);
+		
+
+	
 		return new ResponseEntity<ProductDto>(newProduct,HttpStatus.CREATED);
 		
 	}
+	
+
+	
+	
+	
 	//this controller for update added product
-	@PutMapping("/product")
-	public ResponseEntity<ApiResponse>updateproduct(@Valid @RequestBody ProductDto productDto,HttpServletRequest request,Long productId){
+	@PutMapping("/productedit/{productId}")
+	public ResponseEntity<ApiResponse>updateproduct(@RequestBody ProductDto productDto,HttpServletRequest request,@PathVariable Long productId){
 		System.out.println("////Update Product////");
 		this.producerService.updateaddedProduct(productDto,jwtUtils.getJWTFromRequest(request),productId);
 		return new ResponseEntity<ApiResponse>(new ApiResponse("Product updated successfully",true),HttpStatus.CREATED);
@@ -104,6 +114,8 @@ public class ProducerController {
 		return new ResponseEntity<ProductDto>(updateProduct,HttpStatus.OK);
 		
 	}
+	
+	
 	//For uploading image
 	@GetMapping("/product/getproduct/{productId}")
 	public ResponseEntity<ProductDto>getproductByid(@PathVariable Long productId,HttpServletRequest request) throws  IOException{
@@ -114,7 +126,7 @@ public class ProducerController {
 	
 	
 	//get image from 
-	@GetMapping(value="/product/{imageName}",produces = MediaType.IMAGE_JPEG_VALUE)
+	@GetMapping(value="/product/image/{imageName}",produces = MediaType.IMAGE_JPEG_VALUE)
 	public void downloadImage(@PathVariable("imageName")String imageName,HttpServletResponse response,HttpServletRequest request) throws IOException{
 		InputStream resource = this.fileservice.getResource(path,imageName);
 		response.setContentType(MediaType.IMAGE_JPEG_VALUE);
@@ -134,16 +146,26 @@ public class ProducerController {
 	
 	
 	
-	
+	//get allproduct for customer
 	@GetMapping("/product/productdetails")
 	public ResponseEntity<List<ProductDto>>getProductasStore(HttpServletRequest request){
+		
 		List<ProductDto>product=this.producerService.getProductAsStore(jwtUtils.getJWTFromRequest(request));
+		return new ResponseEntity<List<ProductDto>>(product,HttpStatus.OK);
+		
+	}
+	//get all product for admin and other user
+	@GetMapping("/product/productdetail")
+	public ResponseEntity<List<ProductDto>>getAllProduct(HttpServletRequest request){
+		
+		List<ProductDto>product=this.producerService.getPrdetail(jwtUtils.getJWTFromRequest(request));
 		return new ResponseEntity<List<ProductDto>>(product,HttpStatus.OK);
 		
 	}
 	
 	
 	
+
 	
 	
 }

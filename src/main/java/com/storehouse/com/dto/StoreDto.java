@@ -20,7 +20,7 @@ public class StoreDto {
 	private String storeImage;
 	private List<CustomerDto>customers;
 	private List<DeliveryManDto>deliveryMans;
-	private StoreManagerDto storeManager;
+	private UserDto storeManager;
 	private AdminDto admin;
-	private Set<CommentDto> comments = new HashSet<>();
+	private Set<CommentDto> hicomments = new HashSet<>();
 }

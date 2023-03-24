@@ -115,4 +115,12 @@ public class UserServiceImpl implements UserService{
 		return userDto;
 	}
 
+	@Override
+	public List<User> getUserByRole(String role, String token) {
+	
+		return null;
+	}
+
+
+
 }

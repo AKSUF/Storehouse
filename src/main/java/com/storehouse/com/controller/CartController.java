@@ -1,8 +1,13 @@
 package com.storehouse.com.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.storehouse.com.dto.CartDto;
 import com.storehouse.com.dto.CartItemDto;
 import com.storehouse.com.entity.Account;
+import com.storehouse.com.entity.Cart;
+import com.storehouse.com.entity.CartItem;
 import com.storehouse.com.entity.User;
 import com.storehouse.com.exceptions.ResourceNotFoundException;
+import com.storehouse.com.repository.CartRepository;
 import com.storehouse.com.security.oath.JwtUtils;
 import com.storehouse.com.service.CartService;
 
@@ -28,6 +36,11 @@ public class CartController {
 	private JwtUtils jwtUtils;
 	 @Autowired
 	    private CartService cartService;
+	 @Autowired
+	 private ModelMapper modelmapper;
+	 @Autowired
+	 private CartRepository cartRepository;
+	 
 	 ///Cart 
 	 @PostMapping("/{productId}")
 	 public ResponseEntity<CartDto>addToCart(@PathVariable Long  productId,HttpServletRequest request,@RequestBody CartItemDto cartItemDto){
@@ -48,12 +61,16 @@ public class CartController {
 		return ResponseEntity.ok(cartDto);
 		
 	}
+
 	
-public ResponseEntity<CartDto>getAllCartItemsForUser(HttpServletRequest request){
+@GetMapping("/cart/getallitem")	
+public ResponseEntity<List<CartDto>>getAllCartByUser(HttpServletRequest request){
 	
+	List<CartDto>cartDtos=this.cartService.getCartByUser(jwtUtils.getJWTFromRequest(request));
 	
-	return null;
+
 	
+	return new  ResponseEntity<List<CartDto>>(cartDtos,HttpStatus.OK);
 	
 }
 	
@@ -74,4 +91,15 @@ public ResponseEntity<CartDto>getAllCartItemsForUser(HttpServletRequest request)
     	
     }
 
+    @PutMapping("/updatequantity")
+    public ResponseEntity<CartItem> updateCartItemQuantity(@RequestBody CartItem updateCartRequest,HttpServletRequest request) {
+        cartService.updateCartItemQuantity(updateCartRequest.getCartitemId(), updateCartRequest.getQuantity(),jwtUtils.getJWTFromRequest(request));
+        
+        
+        System.out.println("This the quantiy ");
+        return ResponseEntity.ok().build();
+    }
+    
+    
+    
 }

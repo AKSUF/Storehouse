@@ -1,11 +1,13 @@
 package com.storehouse.com.security.oath;
 
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -26,7 +28,7 @@ public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
 	private AppProperties appProperties;
-
+	private int refreshExpirationDateInMs;
 	public JwtUtils(AppProperties appProperties) {
 		this.appProperties = appProperties;
 	}
@@ -47,13 +49,22 @@ public class JwtUtils {
 		}
 		return null;
 	}
-
-	public String getUserNameFromToken(String token) {
-		Claims claims = Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(token)
-				.getBody();
-		return claims.getSubject();
+	@Value("${jwt.refreshExpirationDateInMs}")
+	public void setRefreshExpirationDateInMs(int refreshExpirationDateInMs) {
+		this.refreshExpirationDateInMs = refreshExpirationDateInMs;
 	}
 
+	
+	public String getUserNameFromToken(String token) {
+	    if (!validateToken(token)) {
+	        return null;
+	    }
+	    Claims claims = Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(token)
+	            .getBody();
+	    return claims.getSubject();
+	}
+	
+	
 	public boolean validateToken(String authToken) {
 		try {
 			Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(authToken);

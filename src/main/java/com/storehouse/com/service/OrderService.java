@@ -5,12 +5,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.storehouse.com.dto.DeliveryAssignmentDto;
 import com.storehouse.com.dto.DeliveryDto;
+import com.storehouse.com.entity.Delivery;
+import com.storehouse.com.entity.DeliveryAssignment;
 import com.storehouse.com.entity.User;
 
 public interface OrderService {
 
-	DeliveryDto orderProduct(@Valid DeliveryDto deliveryDto, Long productId, String jwtFromRequest);
+	Delivery orderProduct(@Valid DeliveryDto deliveryDto, Long productId, String jwtFromRequest);
 
 	DeliveryDto orderStatus(User user, Long deliveryId, String status);
 
@@ -23,6 +26,14 @@ public interface OrderService {
 	DeliveryDto singleorder(Long deliveryId);
 
 	List<DeliveryDto> pendingOrders();
+
+	List<DeliveryDto> getAllOrders(String token);
+
+	Delivery newOrder(@Valid DeliveryDto deliveryDto, Long productId, String token);
+
+	DeliveryAssignment assgindeliveryman(DeliveryAssignmentDto deliveryAssignmentDto, String token, Long deliveryId,
+			Long deliverymanId);
+
 
 	//List<DeliveryDto> delivermanConfirmorders(String token);
 

@@ -22,7 +22,7 @@ import lombok.Setter;
 @Setter
 public class Customer {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private Long customerId;
 	@ManyToMany
 	@JoinColumn(name="cusstoreId",referencedColumnName = "storeId")
@@ -31,7 +31,7 @@ public class Customer {
 	private Cart cart;
 	
 	@OneToOne
-	@JoinColumn(name="user_id")
+	 @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
 	@JsonIgnore
 	private User user;
 

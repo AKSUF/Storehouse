@@ -6,4 +6,7 @@ import com.storehouse.com.entity.User;
 
 public interface UserRepository extends JpaRepository<User,Long> {
 
+
+
+
 }

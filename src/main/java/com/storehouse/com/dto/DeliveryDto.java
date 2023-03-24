@@ -1,6 +1,7 @@
 package com.storehouse.com.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.storehouse.com.entity.User;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,21 +12,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DeliveryDto {
 	private Long deliverId;
-	private Integer delivery_number;
+	private Integer deliveryNumber;
 	private String status;
-	private String delivery_address;
-	@JsonIgnore
-	private UserDto user;
-	@JsonIgnore
+	private String address;
 	private ProductDto product;
-	@JsonIgnore
-	private  DeliveryManDto deliveryMan;
-	@JsonIgnore
+	private UserDto customer;
 	private OrdersDto orderdeliver;
 	private Double totalPrice;
-	
-	 private int quantity;
-	  private String paymentIntentId;
-	
+	private int quantity;
+	private String paymentIntentId;
 	
 }

@@ -25,27 +25,29 @@ public class Delivery {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long deliverId;
-	private Integer delivery_number;
+	private String address;
+	private Integer deliveryNumber;
 	private String status;
-	private String delivery_address;
-	
+	private String phoneNumber;
+	private String receiverName;
+
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
-	@JsonIgnore
 	private User user;
-	 private int quantity;
+
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+	@JoinColumn(name = "customer_id", referencedColumnName = "user_id")
+	private User customer;
+
+	private int quantity;
 	private Double totalPrice;
-	  private String paymentIntentId;
-	
+	private String paymentIntentId;
+
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "productId", referencedColumnName = "productId")
 	private Product product;
-	
-	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, mappedBy = "delivery")
-	private  DeliveryMan deliveryMan;
-	
+
 	@OneToOne
-	@JoinColumn(name="orderId")
+	@JoinColumn(name = "orderId")
 	private Orders orderdeliver;
-	
 }

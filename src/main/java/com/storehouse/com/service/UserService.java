@@ -3,6 +3,8 @@ package com.storehouse.com.service;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.storehouse.com.dto.UserDto;
@@ -21,4 +23,8 @@ public interface UserService {
 		
 		//edit user profile 
 		UserDto editUserProfile(UserDto userDto, Long userId);
+
+		List<User> getUserByRole(String role, String token);
+
+		
 }

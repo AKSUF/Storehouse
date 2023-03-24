@@ -71,10 +71,10 @@ public class WebAppConfig extends WebSecurityConfigurerAdapter {
 				.csrf()
 				.disable().formLogin().disable().httpBasic().disable()
 				.authorizeRequests()
-				.antMatchers("/", "/meal", "/auth/**", "/oauth2/**").permitAll()
+				.antMatchers("/*", "/meal", "/auth/**", "/oauth2/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
-				.antMatchers(HttpMethod.GET, "/api/v1/users/image/**").permitAll()
-				.antMatchers(HttpMethod.GET, "/api/v1/partners/meals/image/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/v1/admin/store/image/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/v1/producer/product/image/**").permitAll()
 				.anyRequest().authenticated().and().oauth2Login()
 				.successHandler(oAuth2SuccessHandler).failureHandler(oAuth2FailHandler)
 				.authorizationEndpoint().authorizationRequestResolver(authorizationRequestResolver());

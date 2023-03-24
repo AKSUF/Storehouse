@@ -13,8 +13,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CartItemDto {
 	private Long cartitemId;
-	@JsonIgnore
+
 	private ProductDto product;
 	@JsonIgnore
 	private CartDto cart;
+	private int quantity;
 }

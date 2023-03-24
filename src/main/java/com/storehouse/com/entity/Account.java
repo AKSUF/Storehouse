@@ -38,7 +38,7 @@ private String provider;
 private List<UserRole> userRoles;
 
 @OneToOne(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-@JsonIgnore
+
 private User user;
 
 }

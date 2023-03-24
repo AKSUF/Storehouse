@@ -6,12 +6,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.storehouse.com.dto.StoreDto;
+import com.storehouse.com.dto.StoreProductDto;
+import com.storehouse.com.entity.Request;
+import com.storehouse.com.entity.StoreProduct;
 
 public interface StoresService {
 
 	StoreDto createStore(@Valid StoreDto storeDto, String jwtFromRequest);
 
-	StoreDto updateStore(@Valid StoreDto storeDto, Long storeId, HttpServletRequest request);
+	
 
 	void deleteStore(Long storeId, String token);
 
@@ -22,6 +25,23 @@ public interface StoresService {
 	StoreDto getStoreById(Long storeId);
 
 	StoreDto updateImage(StoreDto storeDto, String jwtFromRequest, Long storeId);
+
+	StoreProduct sendPaymentProduct(StoreProductDto storeProductDto, Long productId, Long storeId,
+			String token,Long requestId) throws Exception;
+
+
+
+	StoreDto updateStore(@Valid StoreDto storeDto, Long storeId, HttpServletRequest request);
+
+
+
+	List<StoreProductDto> getStoreProduct(String jwtFromRequest);
+
+
+
+	List<StoreProductDto> getStoreProductasUser(String token);
+
+	
 
 	
 

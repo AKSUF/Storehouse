@@ -69,9 +69,10 @@ public class RoleController {
 		}
 		Account account = user.getAccount();
 		List<UserRole> originalUserRole = account.getUserRoles();
-		originalUserRole.forEach((userRole) -> {
-			userRoleRepository.deleteById(userRole.getUser_role_id());
-		});
+//		originalUserRole.forEach((userRole) -> {
+//			userRoleRepository.deleteById(userRole.getUser_role_id());
+//		});
+		
 		String[] roles = assignRoles.split(",");
 		for (String roleId : roles) {
 			Role role = roleRepository.findById(Long.parseLong(roleId)).get();

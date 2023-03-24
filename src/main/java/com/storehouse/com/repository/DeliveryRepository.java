@@ -15,4 +15,6 @@ public interface DeliveryRepository extends JpaRepository<Delivery,Long> {
 
 	List<Delivery> findByStatus(String delivery_status);
 
+	Collection<DeliveryDto> findByStatusAndCustomer(String name, User user);
+
 }
